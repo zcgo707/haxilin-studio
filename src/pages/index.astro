@@ -1,16 +1,11 @@
-<html lang="zh-cn">
-    <head>
-        <meta charset="utf-8" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <meta name="viewport" content="width=device-width" />
-        <meta name="generator" content={Astro.generator} />
-        <title>Astro</title>
-    </head>
-    <body>
-        <a href="/">首页</a>
-        <a href="/about/">关于</a>
-        <a href="/blog/">博客</a>
-        <h1>Astro</h1>
-        <h1>我的 Astro 站点</h1>
-    </body>
-</html>
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Greeting from "../components/Greeting";
+
+const pageTitle = "HaxiLin Studio";
+---
+
+<BaseLayout pageTitle={pageTitle}>
+    <h2>我超棒的博客副标题</h2>
+    <Greeting client:load messages={["Hej", "Hallo", "Hola", "Habari"]} />
+</BaseLayout>

@@ -1,17 +1,20 @@
 ---
-const pageTitle = "关于我";
-
+import Header from "../components/Header.astro";
+import "../styles/global.css";
+import Footer from "../components/Footer.astro";
+const pageTitle = "about";
 const identity = {
     name: "HaxiLin",
     country: "中国",
     age: "21",
 };
-
 const skills = ["HTML", "CSS", "JavaScript", "Astro", "Writing Docs"];
-
 const happy = true;
-const finished = false;
+const finished = true;
 const goal = 3;
+const skillColor = "crimson";
+const fontWeight = "bold";
+const textCase = "uppercase";
 ---
 
 <html lang="zh-CN">
@@ -19,12 +22,20 @@ const goal = 3;
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" />
         <title>{pageTitle}</title>
+        <style define:vars={{ skillColor }}>
+            h1 {
+                color: purple;
+                font-size: 4rem;
+            }
+            .skill {
+                color: var(--skillColor);
+                font-weight: bold;
+            }
+        </style>
     </head>
     <body>
-        <a href="/">首页</a>
-        <a href="/about/">关于</a>
-        <a href="/blog/">博客</a>
-        <h1>{pageTitle}</h1>
+        <Header />
+        <h1>关于我</h1>
         <h2>……和我的新 Astro 网站！</h2>
 
         <p>
@@ -43,7 +54,7 @@ const goal = 3;
 
         <h3>技能</h3>
         <ul>
-            {skills.map((skill) => <li>{skill}</li>)}
+            {skills.map((skill) => <li class="skill">{skill}</li>)}
         </ul>
         {happy && <p>我非常乐意学习 Astro！</p>}
 
@@ -56,5 +67,9 @@ const goal = 3;
                 <p>我的目标不是 3 天。</p>
             )
         }
+        <Footer />
+        <script>
+            import "../scripts/menu.js";
+        </script>
     </body>
 </html>
