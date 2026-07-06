@@ -9,5 +9,6 @@ import preact from "@astrojs/preact";
 export default defineConfig({
   site: "https://x.zcgo.top",
   adapter: cloudflare(),
+  output: "static",
   integrations: [preact()],
 });
