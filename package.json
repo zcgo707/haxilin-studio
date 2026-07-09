@@ -1,5 +1,5 @@
 {
-  "name": "intergalactic-ice",
+  "name": "haxilin-studio",
   "type": "module",
   "version": "0.0.1",
   "engines": {
@@ -8,13 +8,11 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "npm run build && wrangler dev",
+    "preview": "npm run build && wrangler pages dev dist/",
     "astro": "astro",
-    "generate-types": "wrangler types",
-    "deploy": "npm run build && wrangler deploy"
+    "deploy": "npm run build && wrangler pages deploy dist/"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^14.1.2",
     "@astrojs/preact": "^6.0.1",
     "@astrojs/rss": "^4.0.19",
     "astro": "^7.0.7",

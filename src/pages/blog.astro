@@ -11,6 +11,10 @@ const allPosts = await getCollection("blog");
         <div class="blog-header">
             <h1>博客</h1>
             <p>在这里，我将分享我的 Astro 学习之旅。</p>
+            <a class="rss-link" href="/rss.xml" target="_blank" rel="noopener noreferrer">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="4" cy="20" r="3"/><path d="M4 11a9 9 0 0 1 9 9h3a12 12 0 0 0-12-12v3zm0-7a16 16 0 0 1 16 16h3A19 19 0 0 0 4 4v3z"/></svg>
+                RSS
+            </a>
         </div>
 
         <div class="post-list">
@@ -47,6 +51,11 @@ const allPosts = await getCollection("blog");
 
     .blog-header {
         margin-bottom: 2rem;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
     }
 
     .blog-header h1 {
@@ -56,6 +65,24 @@ const allPosts = await getCollection("blog");
 
     .blog-header p {
         color: #6b6b80;
+        width: 100%;
+    }
+
+    .rss-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.85rem;
+        color: #ff6b35;
+        padding: 0.4rem 0.8rem;
+        border-radius: 6px;
+        transition: background 0.2s;
+        white-space: nowrap;
+    }
+
+    .rss-link:hover {
+        background: rgba(255, 107, 53, 0.08);
+        color: #ff6b35;
     }
 
     .post-list {
