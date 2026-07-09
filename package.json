@@ -11,7 +11,7 @@
     "preview": "npm run build && wrangler dev",
     "astro": "astro",
     "generate-types": "wrangler types",
-    "deploy": "npx wrangler pages deploy ./dist"
+    "deploy": "npx wrangler pages deploy ./out"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.1.2",
