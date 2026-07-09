@@ -35,7 +35,7 @@ const allTags = [...new Set(allPosts.map((post: any) => post.data.tags).flat())]
             <div class="blog-tags">
                 <span class="blog-tags-label">标签：</span>
                 {allTags.map((tag: string) => (
-                    <span class="blog-tag">{tag}</span>
+                    <a href={`/tags/${tag}`} class="blog-tag">{tag}</a>
                 ))}
             </div>
         )}
