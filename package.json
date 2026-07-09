@@ -10,12 +10,8 @@
     "build": "astro build",
     "preview": "npm run build && wrangler pages dev dist/",
     "astro": "astro",
-<<<<<<< HEAD
-    "deploy": "npm run build && wrangler pages deploy dist/"
-=======
     "generate-types": "wrangler types",
-    "deploy": "npx wrangler pages deploy ./out"
->>>>>>> 035c7be1da96f04cadaf9ec69be2e5a1da42b459
+    "deploy": "npm run build && wrangler pages deploy dist/"
   },
   "dependencies": {
     "@astrojs/preact": "^6.0.1",
