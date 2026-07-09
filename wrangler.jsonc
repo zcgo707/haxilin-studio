@@ -1,6 +1,9 @@
 {
-	"$schema": "./node_modules/wrangler/config-schema.json",
-	"compatibility_date": "2026-07-05",
-	"name": "haxilin-studio",
-	"pages_build_output_dir": "./dist"
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "compatibility_date": "2026-07-05",
+  "name": "haxilin-studio",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS"
+  }
 }
