@@ -16,27 +16,13 @@ const goal = 3;
     <div class="about-page">
         <section class="intro">
             <h1>关于我</h1>
-            <p>
-                苦于学业的大学生，对未来充满迷茫，但是也不是我停下探索脚步的理由
-            </p>
-            <p>
-                喜欢ai，喜欢探索和创造，喜欢打游戏看番，喜欢哲学，以前很喜欢看书，现在很少看了
-            </p>
-            <p>
-                一切都是随心所至，没什么毅力也没什么很强的执行力，但是偶尔还是会不顾一起闭眼就开始做，熬个通宵可能只是为了找到那行错误的代码
-            </p>
-            <p>
-                微电子专业，好难！但是又想学，做做电路板写写程序，要是能跑通那会很开心
-            </p>
-            <p>
-                现在对域名，云服务器等比较感兴趣，ai时代光靠手里的这台笔记本还是不够的，将来云总会成为基础设施
-            </p>
-            <p>
-                想要实现终生学习，学习有痛苦的地方，但是成就感是很好的，收获知识是很快乐的
-            </p>
-            <p>
-                喜欢电子设备，想弹琴，想做音乐，想去世界各地旅游，想要读万卷书行万里路，想要练出8块腹肌（就在这里许愿吧）
-            </p>
+            <p class="narrative">苦于学业的大学生，对未来充满迷茫，但是也不是我停下探索脚步的理由</p>
+            <p class="narrative">喜欢ai，喜欢探索和创造，喜欢打游戏看番，喜欢哲学，以前很喜欢看书，现在很少看了</p>
+            <blockquote class="quote">一切都是随心所至，没什么毅力也没什么很强的执行力，但是偶尔还是会不顾一起闭眼就开始做，熬个通宵可能只是为了找到那行错误的代码</blockquote>
+            <p class="narrative">微电子专业，好难！但是又想学，做做电路板写写程序，要是能跑通那会很开心</p>
+            <p class="narrative">现在对域名，云服务器等比较感兴趣，ai时代光靠手里的这台笔记本还是不够的，将来云总会成为基础设施</p>
+            <p class="narrative">想要实现终生学习，学习有痛苦的地方，但是成就感是很好的，收获知识是很快乐的</p>
+            <blockquote class="quote">喜欢电子设备，想弹琴，想做音乐，想去世界各地旅游，想要读万卷书行万里路，想要练出8块腹肌（就在这里许愿吧）</blockquote>
         </section>
 
         <section class="info-grid">
@@ -79,17 +65,35 @@ const goal = 3;
 
     .intro h1 {
         font-size: 2.2rem;
-        margin-bottom: 0.3rem;
-    }
-
-    .subtitle {
-        font-size: 1.1rem;
         margin-bottom: 1.2rem;
     }
 
-    .intro p {
-        line-height: 1.7;
-        margin-bottom: 0.6rem;
+    .intro .narrative {
+        font-size: 0.95rem;
+        color: #6b6b80;
+        line-height: 1.8;
+        margin-bottom: 0.8rem;
+    }
+
+    .intro .quote {
+        font-size: 1.1rem;
+        font-weight: 500;
+        line-height: 1.8;
+        border-left: 4px solid #ff9776;
+        padding: 1rem 1.5rem;
+        margin: 1.2rem 0;
+        background: rgba(255, 151, 118, 0.06);
+        border-radius: 0 12px 12px 0;
+        color: inherit;
+        font-style: normal;
+    }
+
+    html.dark .intro .narrative {
+        color: #a0a0b8;
+    }
+
+    html.dark .intro .quote {
+        background: rgba(255, 151, 118, 0.1);
     }
 
     .info-grid {
