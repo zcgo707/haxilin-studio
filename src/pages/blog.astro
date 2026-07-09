@@ -4,18 +4,41 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 const pageTitle = "博客";
 const allPosts = await getCollection("blog");
+const allTags = [...new Set(allPosts.map((post: any) => post.data.tags).flat())];
 ---
 
 <BaseLayout pageTitle={pageTitle} showTitle={false}>
     <div class="blog-page">
         <div class="blog-header">
             <h1>博客</h1>
-            <p>在这里，我将分享我的 Astro 学习之旅。</p>
-            <a class="rss-link" href="/rss.xml" target="_blank" rel="noopener noreferrer">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="4" cy="20" r="3"/><path d="M4 11a9 9 0 0 1 9 9h3a12 12 0 0 0-12-12v3zm0-7a16 16 0 0 1 16 16h3A19 19 0 0 0 4 4v3z"/></svg>
+            <p>在这里，我将分享我的学习之旅。</p>
+            <a
+                class="rss-link"
+                href="/rss.xml"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    ><circle cx="4" cy="20" r="3"></circle><path
+                        d="M4 11a9 9 0 0 1 9 9h3a12 12 0 0 0-12-12v3zm0-7a16 16 0 0 1 16 16h3A19 19 0 0 0 4 4v3z"
+                    ></path></svg
+                >
                 RSS
             </a>
         </div>
+
+        {allTags.length > 0 && (
+            <div class="blog-tags">
+                <span class="blog-tags-label">标签：</span>
+                {allTags.map((tag: string) => (
+                    <span class="blog-tag">{tag}</span>
+                ))}
+            </div>
+        )}
 
         <div class="post-list">
             {
@@ -23,7 +46,9 @@ const allPosts = await getCollection("blog");
                     <a href={`/posts/${post.id}/`} class="post-card">
                         <h2 class="post-title">{post.data.title}</h2>
                         <div class="post-meta">
-                            <time>{post.data.pubDate.toLocaleDateString()}</time>
+                            <time>
+                                {post.data.pubDate.toLocaleDateString()}
+                            </time>
                             {post.data.tags && post.data.tags.length > 0 && (
                                 <span class="post-tags">
                                     {post.data.tags.map((tag: string) => (
@@ -68,6 +93,52 @@ const allPosts = await getCollection("blog");
         width: 100%;
     }
 
+    .blog-tags {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 2rem;
+        padding: 0.8rem 1rem;
+        border: 1px solid #d2d2d7;
+        border-radius: 12px;
+    }
+
+    .blog-tags-label {
+        font-size: 0.85rem;
+        color: #6b6b80;
+        white-space: nowrap;
+    }
+
+    .blog-tag {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        border: 1px solid #d2d2d7;
+        color: #0d0950;
+        transition: border-color 0.2s, background 0.2s;
+    }
+
+    .blog-tag:hover {
+        border-color: #0d0950;
+        background: #e2e8f0;
+    }
+
+    html.dark .blog-tags {
+        border-color: #2a2a45;
+    }
+
+    html.dark .blog-tag {
+        color: #e1e1e6;
+        border-color: #2a2a45;
+    }
+
+    html.dark .blog-tag:hover {
+        border-color: #ff9776;
+        background: rgba(255, 255, 255, 0.08);
+    }
+
     .rss-link {
         display: inline-flex;
         align-items: center;
@@ -98,7 +169,9 @@ const allPosts = await getCollection("blog");
         border-radius: 12px;
         text-decoration: none;
         color: inherit;
-        transition: border-color 0.2s, background 0.2s;
+        transition:
+            border-color 0.2s,
+            background 0.2s;
     }
 
     .post-card:hover {

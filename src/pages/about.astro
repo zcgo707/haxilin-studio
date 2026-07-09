@@ -6,7 +6,7 @@ const identity = {
     country: "中国",
     age: "21",
 };
-const skills = ["HTML", "CSS", "JavaScript", "Astro", "Writing Docs"];
+const skills = ["HTML", "CSS", "JavaScript", "Astro"];
 const happy = true;
 const finished = true;
 const goal = 3;
@@ -16,9 +16,27 @@ const goal = 3;
     <div class="about-page">
         <section class="intro">
             <h1>关于我</h1>
-            <p class="subtitle">……和我的新 Astro 网站！</p>
-            <p>我正在学习 Astro 的入门教程。这是我网站上的第二个页面，也是我自己建立的第一页面！</p>
-            <p>随着我完成更多教程，该站点将更新，所以请继续查看我的旅程将如何进行吧！</p>
+            <p>
+                苦于学业的大学生，对未来充满迷茫，但是也不是我停下探索脚步的理由
+            </p>
+            <p>
+                喜欢ai，喜欢探索和创造，喜欢打游戏看番，喜欢哲学，以前很喜欢看书，现在很少看了
+            </p>
+            <p>
+                一切都是随心所至，没什么毅力也没什么很强的执行力，但是偶尔还是会不顾一起闭眼就开始做，熬个通宵可能只是为了找到那行错误的代码
+            </p>
+            <p>
+                微电子专业，好难！但是又想学，做做电路板写写程序，要是能跑通那会很开心
+            </p>
+            <p>
+                现在对域名，云服务器等比较感兴趣，ai时代光靠手里的这台笔记本还是不够的，将来云总会成为基础设施
+            </p>
+            <p>
+                想要实现终生学习，学习有痛苦的地方，但是成就感是很好的，收获知识是很快乐的
+            </p>
+            <p>
+                喜欢电子设备，想弹琴，想做音乐，想去世界各地旅游，想要读万卷书行万里路，想要练出8块腹肌（就在这里许愿吧）
+            </p>
         </section>
 
         <section class="info-grid">
@@ -37,23 +55,12 @@ const goal = 3;
             <div class="card">
                 <h3>技能</h3>
                 <div class="skill-tags">
-                    {skills.map((skill) => <span class="skill-tag">{skill}</span>)}
-                </div>
-            </div>
-
-            <div class="card">
-                <h3>学习状态</h3>
-                <ul class="status-list">
-                    {happy && <li>我非常乐意学习 Astro！</li>}
-                    {finished && <li>我完成了这节教程！</li>}
                     {
-                        goal === 3 ? (
-                            <li>我的目标是在三天内完成。</li>
-                        ) : (
-                            <li>我的目标不是 3 天。</li>
-                        )
+                        skills.map((skill) => (
+                            <span class="skill-tag">{skill}</span>
+                        ))
                     }
-                </ul>
+                </div>
             </div>
         </section>
     </div>
