@@ -375,6 +375,7 @@ html.dark .card:hover {
 
 html.dark .tag {
   border-color: #2a2a45;
+  color: #e1e1e6;
 }
 
 html.dark .tag:hover {
