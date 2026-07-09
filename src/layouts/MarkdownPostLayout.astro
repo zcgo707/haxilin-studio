@@ -3,40 +3,100 @@ import BaseLayout from "./BaseLayout.astro";
 const { frontmatter } = Astro.props;
 ---
 
-<BaseLayout pageTitle={frontmatter.title}>
-    <p>{frontmatter.pubDate.toString().slice(0, 10)}</p>
-    <p><em>{frontmatter.description}</em></p>
-    <p>作者: {frontmatter.author}</p>
-    <img src={frontmatter.image.url} width="300" alt={frontmatter.image.alt} />
+<BaseLayout pageTitle={frontmatter.title} showTitle={false}>
+    <article class="post-page">
+        <header class="post-header">
+            <h1>{frontmatter.title}</h1>
+            <div class="post-meta">
+                <time>{frontmatter.pubDate.toLocaleDateString()}</time>
+                <span>作者：{frontmatter.author}</span>
+            </div>
+            <p class="post-desc"><em>{frontmatter.description}</em></p>
+            {frontmatter.tags && frontmatter.tags.length > 0 && (
+                <div class="tags">
+                    {frontmatter.tags.map((tag: string) => (
+                        <a href={`/tags/${tag}`} class="tag">{tag}</a>
+                    ))}
+                </div>
+            )}
+        </header>
 
-    <div class="tags">
-        {
-            frontmatter.tags.map((tag: string) => (
-                <p class="tag">
-                    <a href={`/tags/${tag}`}>{tag}</a>
-                </p>
-            ))
-        }
-    </div>
+        {frontmatter.image && (
+            <img src={frontmatter.image.url} width="300" alt={frontmatter.image.alt} class="post-image" />
+        )}
 
-    <slot />
+        <div class="post-content">
+            <slot />
+        </div>
+    </article>
 </BaseLayout>
+
 <style>
-    a {
-        color: #00539f;
+    .post-page {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem 4rem;
+    }
+
+    .post-header {
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid #d2d2d7;
+    }
+
+    .post-header h1 {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .post-meta {
+        display: flex;
+        gap: 1rem;
+        font-size: 0.85rem;
+        color: #6b6b80;
+        margin-bottom: 0.8rem;
+    }
+
+    .post-desc {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #6b6b80;
+        margin-bottom: 1rem;
     }
 
     .tags {
         display: flex;
         flex-wrap: wrap;
+        gap: 0.4rem;
     }
 
     .tag {
-        margin: 0.25em;
-        border: dotted 1px #a1a1a1;
-        border-radius: 0.5em;
-        padding: 0.5em 1em;
-        font-size: 1.15em;
-        background-color: #f8fcfd;
+        padding: 0.25rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        border: 1px solid #d2d2d7;
+        text-decoration: none;
+        color: #0d0950;
+        transition: border-color 0.2s;
+    }
+
+    .tag:hover {
+        border-color: #0d0950;
+    }
+
+    .post-image {
+        border-radius: 12px;
+        margin-bottom: 2rem;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .post-content {
+        line-height: 1.8;
+        font-size: 1rem;
+    }
+
+    .post-content p {
+        margin-bottom: 1rem;
     }
 </style>

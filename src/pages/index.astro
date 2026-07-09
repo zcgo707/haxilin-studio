@@ -1,11 +1,46 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Greeting from "../components/Greeting";
 
 const pageTitle = "HaxiLin Studio";
 ---
 
-<BaseLayout pageTitle={pageTitle}>
-    <h2>我超棒的博客副标题</h2>
-    <Greeting client:load messages={["Hej", "Hallo", "Hola", "Habari"]} />
+<BaseLayout pageTitle={pageTitle} showTitle={false}>
+    <div class="hero">
+        <div class="hero-content">
+            <h1>HaxiLin Studio</h1>
+            <p class="tagline" style="color: #0d0950;">不折锋芒，不伪自由</p>
+        </div>
+    </div>
 </BaseLayout>
+
+<style>
+    .hero {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1.5rem 4rem;
+    }
+
+    .hero-content {
+        text-align: center;
+        max-width: 600px;
+    }
+
+    h1 {
+        font-family: "typhooncondital-12", "HongLeiXingShuJianTi-2", serif;
+        font-size: 4.5rem;
+        font-weight: normal;
+        letter-spacing: 0.04em;
+        margin-bottom: 0.5rem;
+        line-height: 1.1;
+    }
+
+    .tagline {
+        font-family: "HongLeiXingShuJianTi-2", serif;
+        font-size: 1.6rem;
+        letter-spacing: 0.15em;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+    }
+</style>

@@ -2,7 +2,7 @@
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import "../styles/global.css";
-const { pageTitle } = Astro.props;
+const { pageTitle, showTitle = true } = Astro.props;
 ---
 
 <html lang="zh-CN">
@@ -12,12 +12,15 @@ const { pageTitle } = Astro.props;
         <meta name="viewport" content="width=device-width" />
         <meta name="generator" content={Astro.generator} />
         <title>{pageTitle}</title>
+        <link rel="preload" href="/fonts/typhooncondital-12.ttf" as="font" type="font/ttf" crossorigin>
+        <link rel="preload" href="/fonts/HongLeiXingShuJianTi-2.otf" as="font" type="font/otf" crossorigin>
     </head>
     <body>
         <Header />
-        <h1>{pageTitle}</h1>
-
-        <slot />
+        <main>
+            {showTitle && <h1>{pageTitle}</h1>}
+            <slot />
+        </main>
         <Footer />
         <script>
             import "../scripts/menu.js";
