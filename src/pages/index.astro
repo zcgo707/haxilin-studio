@@ -1,149 +1,44 @@
 ---
-import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const pageTitle = "HaxiLin Studio";
-const allPosts = await getCollection("blog");
-const recentPosts = allPosts
-    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-    .slice(0, 3);
 ---
 
 <BaseLayout pageTitle={pageTitle} showTitle={false}>
-    <div class="hero">
-        <div class="hero-content">
-            <h1>HaxiLin Studio</h1>
-            <p class="tagline">不折锋芒，不伪自由</p>
-        </div>
+    <div class="home">
+        <h1 class="home-title">HaxiLin Studio</h1>
+        <p class="home-tagline">不折锋芒，不伪自由</p>
     </div>
-
-    {recentPosts.length > 0 && (
-        <section class="recent-posts">
-            <h2 class="section-title">最新文章</h2>
-            <div class="post-list">
-                {recentPosts.map((post) => (
-                    <a href={`/posts/${post.id}/`} class="post-card">
-                        <h3 class="post-title">{post.data.title}</h3>
-                        <div class="post-meta">
-                            <time>{post.data.pubDate.toLocaleDateString()}</time>
-                            {post.data.tags && post.data.tags.length > 0 && (
-                                <span class="post-tags">
-                                    {post.data.tags.map((tag) => (
-                                        <span class="post-tag">{tag}</span>
-                                    ))}
-                                </span>
-                            )}
-                        </div>
-                        {post.data.description && (
-                            <p class="post-desc">{post.data.description}</p>
-                        )}
-                    </a>
-                ))}
-            </div>
-        </section>
-    )}
 </BaseLayout>
 
 <style>
-    .hero {
+    .home {
         flex: 1;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 2rem 1.5rem 1rem;
+        padding: 2rem 1.5rem 3rem;
     }
 
-    .hero-content {
-        text-align: center;
-        max-width: 600px;
-    }
-
-    h1 {
+    .home-title {
         font-family: "typhooncondital-12", "HongLeiXingShuJianTi-2", serif;
-        font-size: 4.5rem;
+        font-size: 4rem;
         font-weight: normal;
         letter-spacing: 0.04em;
         margin-bottom: 0.5rem;
         line-height: 1.1;
     }
 
-    .tagline {
+    .home-tagline {
         font-family: "HongLeiXingShuJianTi-2", serif;
-        font-size: 1.6rem;
+        font-size: 1.5rem;
         letter-spacing: 0.15em;
-        margin-bottom: 2rem;
         opacity: 0.9;
         color: #0d0950;
     }
 
-    html.dark .tagline {
+    html.dark .home-tagline {
         color: #e1e1e6;
-    }
-
-    .recent-posts {
-        max-width: 720px;
-        margin: 0 auto;
-        padding: 0 1.5rem 3rem;
-        width: 100%;
-    }
-
-    .section-title {
-        font-size: 1.4rem;
-        margin-bottom: 1.2rem;
-        padding-bottom: 0.5rem;
-        border-bottom: 1px solid #d2d2d7;
-    }
-
-    .post-list {
-        display: flex;
-        flex-direction: column;
-        gap: 0.8rem;
-    }
-
-    .post-card {
-        display: block;
-        padding: 1.2rem 1.5rem;
-        border: 1px solid #d2d2d7;
-        border-radius: 12px;
-        text-decoration: none;
-        color: inherit;
-        transition: border-color 0.2s, background 0.2s;
-    }
-
-    .post-card:hover {
-        border-color: #0d0950;
-        background: #e2e8f0;
-    }
-
-    .post-title {
-        font-size: 1.1rem;
-        margin-bottom: 0.3rem;
-    }
-
-    .post-meta {
-        display: flex;
-        align-items: center;
-        gap: 0.8rem;
-        font-size: 0.85rem;
-        color: #6b6b80;
-        margin-bottom: 0.5rem;
-    }
-
-    .post-tags {
-        display: flex;
-        gap: 0.4rem;
-    }
-
-    .post-tag {
-        padding: 0.1rem 0.5rem;
-        border-radius: 10px;
-        font-size: 0.75rem;
-        border: 1px solid #d2d2d7;
-    }
-
-    .post-desc {
-        font-size: 0.9rem;
-        line-height: 1.5;
-        color: #6b6b80;
     }
 </style>

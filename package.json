@@ -20,6 +20,7 @@
     "preact": "^10.29.4"
   },
   "devDependencies": {
+    "typescript": "^7.0.2",
     "wrangler": "^4.107.0"
   }
 }

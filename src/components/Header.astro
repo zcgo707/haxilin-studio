@@ -6,10 +6,37 @@ import ThemeIcon from "./ThemeIcon.astro";
 
 <header>
     <nav>
+        <a href="/" class="site-logo" aria-label="返回首页">
+            <img
+                src="/favicon.svg"
+                alt="HaxiLin Studio"
+                width="28"
+                height="28"
+            />
+        </a>
         <div>
-            <ThemeIcon />
             <Menu />
+
+            <Navigation />
+            <ThemeIcon />
         </div>
-        <Navigation />
     </nav>
 </header>
+
+<style>
+    .site-logo {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        line-height: 0;
+        transition: opacity 0.2s;
+    }
+    .site-logo:hover {
+        opacity: 0.75;
+    }
+    nav {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+</style>

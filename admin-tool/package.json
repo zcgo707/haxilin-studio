@@ -1,0 +1,14 @@
+{
+  "name": "haxilin-admin-tool",
+  "version": "1.0.0",
+  "description": "本地博客编辑器 — HaxiLin Studio 独立管理工具",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "multer": "^1.4.5-lts.1",
+    "sharp": "^0.35.0"
+  }
+}
