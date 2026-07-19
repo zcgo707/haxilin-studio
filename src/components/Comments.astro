@@ -1,0 +1,47 @@
+---
+// Giscus 评论组件 —— 基于 GitHub Discussions
+// 配置来自 https://giscus.app/zh-CN
+// 主题跟随系统明暗模式（preferred_color_scheme）
+//
+// 注意：Astro 默认会处理 <script> 标签（打包/作用域隔离），
+// 而 Giscus 需要原始的 data-* 属性 + async 加载，
+// 所以必须用 `is:inline` 让 Astro 原样输出到 HTML。
+---
+
+<section class="comments">
+    <h2 class="comments-title">评论</h2>
+    <div class="giscus"></div>
+    <script is:inline src="https://giscus.app/client.js"
+        data-repo="zcgo707/haxilin-studio"
+        data-repo-id="R_kgDOTOcDhQ"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOTOcDhc4DBfzv"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+    </script>
+</section>
+
+<style>
+    .comments {
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--color-border);
+    }
+
+    .comments-title {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        color: var(--color-text);
+    }
+
+    .giscus {
+        min-height: 100px;
+    }
+</style>
