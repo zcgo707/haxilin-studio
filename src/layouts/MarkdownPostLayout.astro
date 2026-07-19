@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
+import Comments from "../components/Comments.astro";
 const { frontmatter } = Astro.props;
 ---
 
@@ -8,7 +9,9 @@ const { frontmatter } = Astro.props;
         <header class="post-header">
             <h1>{frontmatter.title}</h1>
             <div class="post-meta">
-                <time>{frontmatter.pubDate.toLocaleDateString()}</time>
+                <time datetime={frontmatter.pubDate.toISOString()}>
+                    {frontmatter.pubDate.toLocaleDateString()}
+                </time>
                 <span>作者：{frontmatter.author}</span>
             </div>
             <p class="post-desc"><em>{frontmatter.description}</em></p>
@@ -22,12 +25,20 @@ const { frontmatter } = Astro.props;
         </header>
 
         {frontmatter.image && (
-            <img src={frontmatter.image.url} width="300" alt={frontmatter.image.alt} class="post-image" />
+            <img
+                src={frontmatter.image.url}
+                alt={frontmatter.image.alt}
+                loading="lazy"
+                decoding="async"
+                class="post-image"
+            />
         )}
 
         <div class="post-content">
             <slot />
         </div>
+
+        <Comments />
     </article>
 </BaseLayout>
 
@@ -41,7 +52,7 @@ const { frontmatter } = Astro.props;
     .post-header {
         margin-bottom: 2rem;
         padding-bottom: 1.5rem;
-        border-bottom: 1px solid #d2d2d7;
+        border-bottom: 1px solid var(--color-border);
     }
 
     .post-header h1 {
@@ -53,14 +64,14 @@ const { frontmatter } = Astro.props;
         display: flex;
         gap: 1rem;
         font-size: 0.85rem;
-        color: #6b6b80;
+        color: var(--color-text-muted);
         margin-bottom: 0.8rem;
     }
 
     .post-desc {
         font-size: 1rem;
         line-height: 1.6;
-        color: #6b6b80;
+        color: var(--color-text-muted);
         margin-bottom: 1rem;
     }
 
@@ -74,18 +85,15 @@ const { frontmatter } = Astro.props;
         padding: 0.25rem 0.8rem;
         border-radius: 20px;
         font-size: 0.8rem;
-        border: 1px solid #d2d2d7;
+        border: 1px solid var(--color-border);
         text-decoration: none;
-        color: #0d0950;
-        transition: border-color 0.2s;
-    }
-
-    html.dark .tag {
-        color: #e1e1e6;
+        color: var(--color-text);
+        transition: border-color 0.2s, color 0.2s;
     }
 
     .tag:hover {
-        border-color: #0d0950;
+        border-color: var(--color-accent);
+        color: var(--color-accent);
     }
 
     .post-image {

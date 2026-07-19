@@ -1,14 +1,15 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostCard from "../../components/PostCard.astro";
 
 export async function getStaticPaths() {
     const allPosts = await getCollection("blog");
     const uniqueTags = [
-        ...new Set(allPosts.map((post: any) => post.data.tags).flat()),
+        ...new Set(allPosts.map((post) => post.data.tags).flat()),
     ];
     return uniqueTags.map((tag) => {
-        const filteredPosts = allPosts.filter((post: any) =>
+        const filteredPosts = allPosts.filter((post) =>
             post.data.tags.includes(tag),
         );
         return {
@@ -30,26 +31,9 @@ const { posts } = Astro.props;
         </div>
 
         <div class="post-list">
-            {
-                posts.map((post: any) => (
-                    <a href={`/posts/${post.id}/`} class="post-card">
-                        <h2 class="post-title">{post.data.title}</h2>
-                        <div class="post-meta">
-                            <time>{post.data.pubDate.toLocaleDateString()}</time>
-                            {post.data.tags && post.data.tags.length > 0 && (
-                                <span class="post-tags">
-                                    {post.data.tags.map((t: string) => (
-                                        <span class="post-tag">{t}</span>
-                                    ))}
-                                </span>
-                            )}
-                        </div>
-                        {post.data.description && (
-                            <p class="post-desc">{post.data.description}</p>
-                        )}
-                    </a>
-                ))
-            }
+            {posts.map((post) => (
+                <PostCard post={post} />
+            ))}
         </div>
     </div>
 </BaseLayout>
@@ -71,64 +55,12 @@ const { posts } = Astro.props;
     }
 
     .tag-header p {
-        color: #6b6b80;
+        color: var(--color-text-muted);
     }
 
     .post-list {
         display: flex;
         flex-direction: column;
         gap: 1rem;
-    }
-
-    .post-card {
-        display: block;
-        padding: 1.5rem;
-        border: 1px solid #d2d2d7;
-        border-radius: 12px;
-        text-decoration: none;
-        color: inherit;
-        transition: border-color 0.2s, background 0.2s;
-    }
-
-    .post-card:hover {
-        border-color: #0d0950;
-        background: #e2e8f0;
-    }
-
-    .post-title {
-        font-size: 1.2rem;
-        margin-bottom: 0.4rem;
-    }
-
-    .post-meta {
-        display: flex;
-        align-items: center;
-        gap: 0.8rem;
-        font-size: 0.85rem;
-        color: #6b6b80;
-        margin-bottom: 0.6rem;
-    }
-
-    .post-tags {
-        display: flex;
-        gap: 0.4rem;
-    }
-
-    .post-tag {
-        padding: 0.1rem 0.5rem;
-        border-radius: 10px;
-        font-size: 0.75rem;
-        border: 1px solid #d2d2d7;
-    }
-
-    html.dark .post-tag {
-        color: #e1e1e6;
-        border-color: #2a2a45;
-    }
-
-    .post-desc {
-        font-size: 0.9rem;
-        line-height: 1.5;
-        color: #6b6b80;
     }
 </style>

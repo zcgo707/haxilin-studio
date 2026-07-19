@@ -1,10 +1,11 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import PostCard from "../components/PostCard.astro";
 
 const pageTitle = "博客";
 const allPosts = await getCollection("blog");
-const allTags = [...new Set(allPosts.map((post: any) => post.data.tags).flat())];
+const allTags = [...new Set(allPosts.map((post) => post.data.tags).flat())];
 ---
 
 <BaseLayout pageTitle={pageTitle} showTitle={false}>
@@ -34,35 +35,16 @@ const allTags = [...new Set(allPosts.map((post: any) => post.data.tags).flat())]
         {allTags.length > 0 && (
             <div class="blog-tags">
                 <span class="blog-tags-label">标签：</span>
-                {allTags.map((tag: string) => (
+                {allTags.map((tag) => (
                     <a href={`/tags/${tag}`} class="blog-tag">{tag}</a>
                 ))}
             </div>
         )}
 
         <div class="post-list">
-            {
-                allPosts.map((post: any) => (
-                    <a href={`/posts/${post.id}/`} class="post-card">
-                        <h2 class="post-title">{post.data.title}</h2>
-                        <div class="post-meta">
-                            <time>
-                                {post.data.pubDate.toLocaleDateString()}
-                            </time>
-                            {post.data.tags && post.data.tags.length > 0 && (
-                                <span class="post-tags">
-                                    {post.data.tags.map((tag: string) => (
-                                        <span class="post-tag">{tag}</span>
-                                    ))}
-                                </span>
-                            )}
-                        </div>
-                        {post.data.description && (
-                            <p class="post-desc">{post.data.description}</p>
-                        )}
-                    </a>
-                ))
-            }
+            {allPosts.map((post) => (
+                <PostCard post={post} />
+            ))}
         </div>
     </div>
 </BaseLayout>
@@ -89,7 +71,7 @@ const allTags = [...new Set(allPosts.map((post: any) => post.data.tags).flat())]
     }
 
     .blog-header p {
-        color: #6b6b80;
+        color: var(--color-text-muted);
         width: 100%;
     }
 
@@ -100,13 +82,13 @@ const allTags = [...new Set(allPosts.map((post: any) => post.data.tags).flat())]
         gap: 0.5rem;
         margin-bottom: 2rem;
         padding: 0.8rem 1rem;
-        border: 1px solid #d2d2d7;
+        border: 1px solid var(--color-border);
         border-radius: 12px;
     }
 
     .blog-tags-label {
         font-size: 0.85rem;
-        color: #6b6b80;
+        color: var(--color-text-muted);
         white-space: nowrap;
     }
 
@@ -115,28 +97,15 @@ const allTags = [...new Set(allPosts.map((post: any) => post.data.tags).flat())]
         padding: 0.25rem 0.75rem;
         border-radius: 20px;
         font-size: 0.8rem;
-        border: 1px solid #d2d2d7;
-        color: #0d0950;
+        border: 1px solid var(--color-border);
+        color: var(--color-text);
         transition: border-color 0.2s, background 0.2s;
     }
 
     .blog-tag:hover {
-        border-color: #0d0950;
-        background: #e2e8f0;
-    }
-
-    html.dark .blog-tags {
-        border-color: #2a2a45;
-    }
-
-    html.dark .blog-tag {
-        color: #e1e1e6;
-        border-color: #2a2a45;
-    }
-
-    html.dark .blog-tag:hover {
-        border-color: #ff9776;
-        background: rgba(255, 255, 255, 0.08);
+        border-color: var(--color-accent);
+        color: var(--color-accent);
+        background: var(--color-card-hover-bg);
     }
 
     .rss-link {
@@ -144,7 +113,7 @@ const allTags = [...new Set(allPosts.map((post: any) => post.data.tags).flat())]
         align-items: center;
         gap: 0.4rem;
         font-size: 0.85rem;
-        color: #ff6b35;
+        color: var(--color-accent);
         padding: 0.4rem 0.8rem;
         border-radius: 6px;
         transition: background 0.2s;
@@ -152,67 +121,12 @@ const allTags = [...new Set(allPosts.map((post: any) => post.data.tags).flat())]
     }
 
     .rss-link:hover {
-        background: rgba(255, 107, 53, 0.08);
-        color: #ff6b35;
+        background: var(--color-blockquote-bg);
     }
 
     .post-list {
         display: flex;
         flex-direction: column;
         gap: 1rem;
-    }
-
-    .post-card {
-        display: block;
-        padding: 1.5rem;
-        border: 1px solid #d2d2d7;
-        border-radius: 12px;
-        text-decoration: none;
-        color: inherit;
-        transition:
-            border-color 0.2s,
-            background 0.2s;
-    }
-
-    .post-card:hover {
-        border-color: #0d0950;
-        background: #e2e8f0;
-    }
-
-    .post-title {
-        font-size: 1.2rem;
-        margin-bottom: 0.4rem;
-    }
-
-    .post-meta {
-        display: flex;
-        align-items: center;
-        gap: 0.8rem;
-        font-size: 0.85rem;
-        color: #6b6b80;
-        margin-bottom: 0.6rem;
-    }
-
-    .post-tags {
-        display: flex;
-        gap: 0.4rem;
-    }
-
-    .post-tag {
-        padding: 0.1rem 0.5rem;
-        border-radius: 10px;
-        font-size: 0.75rem;
-        border: 1px solid #d2d2d7;
-    }
-
-    html.dark .post-tag {
-        color: #e1e1e6;
-        border-color: #2a2a45;
-    }
-
-    .post-desc {
-        font-size: 0.9rem;
-        line-height: 1.5;
-        color: #6b6b80;
     }
 </style>

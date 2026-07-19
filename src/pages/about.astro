@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Comments from "../components/Comments.astro";
 const pageTitle = "关于";
 const identity = {
     name: "HaxiLin",
@@ -7,9 +8,6 @@ const identity = {
     age: "21",
 };
 const skills = ["HTML", "CSS", "JavaScript", "Astro"];
-const happy = true;
-const finished = true;
-const goal = 3;
 ---
 
 <BaseLayout pageTitle={pageTitle} showTitle={false}>
@@ -49,6 +47,8 @@ const goal = 3;
                 </div>
             </div>
         </section>
+
+        <Comments />
     </div>
 </BaseLayout>
 
@@ -70,7 +70,7 @@ const goal = 3;
 
     .intro .narrative {
         font-size: 0.95rem;
-        color: #6b6b80;
+        color: var(--color-text-muted);
         line-height: 1.8;
         margin-bottom: 0.8rem;
     }
@@ -79,21 +79,13 @@ const goal = 3;
         font-size: 1.1rem;
         font-weight: 500;
         line-height: 1.8;
-        border-left: 4px solid #ff9776;
+        border-left: 4px solid var(--color-accent);
         padding: 1rem 1.5rem;
         margin: 1.2rem 0;
-        background: rgba(255, 151, 118, 0.06);
+        background: var(--color-blockquote-bg);
         border-radius: 0 12px 12px 0;
         color: inherit;
         font-style: normal;
-    }
-
-    html.dark .intro .narrative {
-        color: #a0a0b8;
-    }
-
-    html.dark .intro .quote {
-        background: rgba(255, 151, 118, 0.1);
     }
 
     .info-grid {
@@ -103,16 +95,17 @@ const goal = 3;
     }
 
     .card {
-        border: 1px solid #d2d2d7;
+        border: 1px solid var(--color-border);
         border-radius: 12px;
         padding: 1.5rem;
+        box-shadow: var(--shadow-card);
     }
 
     .card h3 {
         font-size: 1.1rem;
         margin-bottom: 1rem;
         padding-bottom: 0.5rem;
-        border-bottom: 1px solid #d2d2d7;
+        border-bottom: 1px solid var(--color-border);
     }
 
     dl {
@@ -123,7 +116,7 @@ const goal = 3;
 
     dt {
         font-weight: 600;
-        color: #6b6b80;
+        color: var(--color-text-muted);
     }
 
     .skill-tags {
@@ -137,26 +130,13 @@ const goal = 3;
         padding: 0.3rem 0.8rem;
         border-radius: 20px;
         font-size: 0.85rem;
-        border: 1px solid #0d0950;
-        color: #0d0950;
+        border: 1px solid var(--color-border);
+        color: var(--color-text);
+        transition: border-color 0.2s, color 0.2s;
     }
 
-    html.dark .skill-tag {
-        color: #e1e1e6;
-        border-color: #ff9776;
-    }
-
-    .status-list {
-        list-style: none;
-        padding: 0;
-    }
-
-    .status-list li {
-        padding: 0.4rem 0;
-    }
-
-    .status-list li::before {
-        content: "✓ ";
-        color: #0d0950;
+    .skill-tag:hover {
+        border-color: var(--color-accent);
+        color: var(--color-accent);
     }
 </style>

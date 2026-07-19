@@ -3,444 +3,211 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>博客编辑器 - HaxiLin Studio</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC","Microsoft YaHei",sans-serif;background:#f1f5f9;color:#111;line-height:1.6;-webkit-font-smoothing:antialiased;padding:0}
-.container{max-width:800px;margin:0 auto;padding:2rem 1.5rem 4rem}
-.header{font-size:1.8rem;font-weight:700;margin-bottom:1.5rem;padding-bottom:.5rem;border-bottom:2px solid #6155F5}
-.tabs{display:flex;gap:.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
-.tab{padding:.5rem 1.2rem;border-radius:8px;border:1px solid #d2d2d7;background:transparent;font-size:.9rem;font-weight:500;cursor:pointer;transition:all .2s;color:inherit}
-.tab.active{border:2px solid #6155F5;background:#6155F5;color:#fff}
-.msg{padding:.6rem 1rem;border-radius:8px;font-size:.85rem;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
-.msg.error{background:#fef2f2;color:#dc2626;border:1px solid #fecaca}
-.msg.success{background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0}
-.msg button{margin-left:auto;background:none;border:none;cursor:pointer;font-size:.85rem;text-decoration:underline;color:inherit}
-.field{margin-bottom:1rem}
-.field label{display:block;font-size:.85rem;font-weight:600;margin-bottom:.3rem;color:#555}
-.field input,.field textarea{width:100%;padding:.6rem .8rem;border-radius:8px;border:1px solid #d2d2d7;font-size:.95rem;outline:none;transition:border-color .2s;background:#fff;color:#111}
-.field input:focus,.field textarea:focus{border-color:#6155F5}
-.field textarea{min-height:300px;font-family:"SF Mono","Fira Code","Source Code Pro",monospace;font-size:.9rem;line-height:1.7;resize:vertical}
-.row{display:flex;gap:1rem;flex-wrap:wrap}
-.half{flex:1;min-width:200px}
-.tag-wrap{display:flex;flex-wrap:wrap;align-items:center;gap:.3rem}
-.tag-chip{padding:.25rem .7rem;border-radius:20px;font-size:.8rem;border:1px solid #d2d2d7;cursor:pointer;transition:all .15s;color:#555;background:transparent}
-.tag-chip.selected{border:2px solid #6155F5;background:rgba(97,85,245,.1);color:#6155F5;font-weight:600}
-.tag-input{padding:.25rem .5rem;border-radius:20px;border:1px dashed #d2d2d7;font-size:.8rem;outline:none;width:80px;background:#fff;color:#111}
-.actions{display:flex;gap:.8rem;margin-top:1.5rem;flex-wrap:wrap}
-.btn{padding:.6rem 1.5rem;border-radius:8px;border:none;font-size:.9rem;font-weight:600;cursor:pointer;transition:opacity .2s;color:#fff}
-.btn-secondary{padding:.6rem 1.5rem;border-radius:8px;border:1px solid #d2d2d7;background:transparent;color:#555;font-size:.9rem;font-weight:500;cursor:pointer;transition:all .2s}
-.btn:disabled,.btn-secondary:disabled{opacity:.5;cursor:not-allowed}
-.list-item{display:flex;justify-content:space-between;align-items:center;padding:.8rem 1rem;border:1px solid #d2d2d7;border-radius:8px;margin-bottom:.5rem;cursor:pointer;transition:background .2s}
-.list-item:hover{background:#e2e8f0}
-.list-item .info{flex:1}
-.list-item .title{font-weight:600;font-size:.95rem}
-.list-item .meta{font-size:.8rem;color:#888;margin-top:.2rem}
-.btn-danger{background:none;border:1px solid #fecaca;color:#dc2626;padding:.3rem .8rem;border-radius:6px;font-size:.8rem;cursor:pointer}
-.edit-notice{font-size:.8rem;color:#888;margin-bottom:.8rem;padding:.3rem .6rem;background:#f5f5f5;border-radius:6px;display:inline-block}
-.edit-notice button{margin-left:.5rem;background:none;border:none;color:#6155F5;cursor:pointer;font-size:.8rem;text-decoration:underline}
-.empty-tip{color:#888;font-size:.9rem}
-</style>
+<title>博客编辑器 — HaxiLin Studio</title>
+<link rel="stylesheet" href="styles.css?v=6">
 </head>
 <body>
-<div class="container" id="app">
-  <div class="header" id="pageTitle">📝 博客编辑器</div>
 
-  <div id="msgArea"></div>
-
-  <div class="tabs" id="tabs">
-    <button class="tab active" data-tab="new" onclick="switchTab('new')">📄 新建文章</button>
-    <button class="tab" data-tab="drafts" onclick="switchTab('drafts')">📂 草稿箱 (<span id="draftCount">0</span>)</button>
-    <button class="tab" data-tab="published" onclick="switchTab('published')">📖 已发布 (<span id="postCount">0</span>)</button>
-  </div>
-
-  <!-- 新建/编辑表单 -->
-  <div id="tabNew">
-    <div id="editNotice"></div>
-
-    <div class="field">
-      <label>标题 *</label>
-      <input id="fTitle" placeholder="文章标题">
+<div class="app">
+  <!-- ========== 侧栏 ========== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">HaxiLin <span>Studio</span></div>
+      <button class="btn-new" id="btnNew">+ 新建</button>
     </div>
 
-    <div class="field">
-      <label>简介 *</label>
-      <input id="fDesc" placeholder="文章简介">
+    <div class="sidebar-search">
+      <input type="text" id="searchInput" placeholder="搜索文章或标签…">
     </div>
 
-    <div class="row">
-      <div class="half">
-        <div class="field">
-          <label>作者</label>
-          <input id="fAuthor" value="HaxiLin">
+    <div class="sidebar-filters">
+      <button data-filter="all" class="active">全部</button>
+      <button data-filter="draft">草稿</button>
+      <button data-filter="published">已发布</button>
+    </div>
+
+    <div class="article-list" id="articleList"></div>
+  </aside>
+
+  <!-- ========== 主区域 ========== -->
+  <main class="main">
+    <!-- 空状态 -->
+    <div class="empty-state" id="emptyState">
+      <div class="es-icon">✎</div>
+      <div class="es-text">选择文章或点击「新建」开始写作</div>
+    </div>
+
+    <!-- 编辑器 -->
+    <div class="editor-area" id="editorArea" style="display:none">
+      <!-- 顶栏 -->
+      <div class="top-bar">
+        <button class="btn-icon" id="btnSidebar" title="收起侧栏">☰</button>
+        <div class="breadcrumb" id="breadcrumb"><span class="bc-status">新文章</span></div>
+        <button class="btn-deploy" id="btnDeploy" title="构建并部署到线上">⚡ 部署</button>
+        <button class="btn-icon" id="btnHelp" title="快捷键">?</button>
+      </div>
+
+      <!-- 标题 -->
+      <input type="text" class="title-input" id="fTitle" placeholder="无标题">
+
+      <!-- 元数据 -->
+      <div class="metadata-panel" id="metadataPanel">
+        <button class="metadata-toggle" id="metadataToggle">
+          <span class="mt-arrow">▶</span> 文章信息
+        </button>
+        <div class="metadata-content">
+          <input type="text" class="meta-desc" id="fDesc" placeholder="一句话简介">
+          <div class="meta-row">
+            <input type="text" id="fAuthor" value="HaxiLin" placeholder="作者">
+            <input type="date" id="fDate">
+          </div>
+          <div class="tag-wrap" id="tagWrap"></div>
+          <button class="img-upload-btn" id="imgBtn" type="button">📷 插入图片</button>
         </div>
       </div>
-      <div class="half">
-        <div class="field">
-          <label>发布日期</label>
-          <input id="fDate" type="date">
+
+      <!-- 视图切换 -->
+      <div class="view-toggle">
+        <button data-view="edit">编辑</button>
+        <button data-view="split" class="active">分栏</button>
+        <button data-view="preview">预览</button>
+      </div>
+
+      <!-- 工具栏 -->
+      <div class="toolbar">
+        <button data-action="h1" title="标题1">H1</button>
+        <button data-action="h2" title="标题2">H2</button>
+        <span class="tb-sep"></span>
+        <button data-action="bold" title="加粗 (Ctrl+B)"><b>B</b></button>
+        <button data-action="italic" title="斜体 (Ctrl+I)"><i>I</i></button>
+        <button data-action="code" title="行内代码"><code>&lt;/&gt;</code></button>
+        <span class="tb-sep"></span>
+        <button data-action="link" title="链接">🔗</button>
+        <button data-action="image" title="图片">🖼</button>
+        <span class="tb-sep"></span>
+        <button data-action="quote" title="引用">❝</button>
+        <button data-action="ul" title="无序列表">• —</button>
+        <button data-action="ol" title="有序列表">1.</button>
+        <button data-action="hr" title="分割线">―</button>
+      </div>
+
+      <!-- 图片选择器（隐藏的 file input，支持多选） -->
+      <input type="file" id="imgInput" accept="image/jpeg,image/png,image/gif,image/webp,image/bmp,image/tiff,image/avif" multiple style="display:none">
+
+      <!-- 分栏 -->
+      <div class="split-pane mode-split" id="splitPane">
+        <div class="pane editor-pane">
+          <textarea class="editor" id="fContent" placeholder="开始写作…" spellcheck="false"></textarea>
+        </div>
+        <div class="pane preview-pane">
+          <div class="preview" id="preview"></div>
+        </div>
+      </div>
+
+      <!-- 状态栏 -->
+      <div class="status-bar">
+        <span class="sb-item"><span class="sb-dot" id="saveDot"></span><span id="saveText"></span></span>
+        <span class="sb-item" id="wordCount">0 字</span>
+        <span class="sb-item" id="readTime">约 0 分钟</span>
+        <span class="sb-spacer"></span>
+        <div class="sb-actions">
+          <button class="sb-btn delete" id="btnDelete" style="display:none">删除</button>
+          <button class="sb-btn draft" id="btnDraft">保存草稿</button>
+          <button class="sb-btn publish" id="btnPublish">发布</button>
         </div>
       </div>
     </div>
-
-    <div class="field">
-      <label>标签</label>
-      <div class="tag-wrap" id="tagWrap"></div>
-    </div>
-
-    <div class="field">
-      <label>图片（可选）</label>
-      <div>
-        <button class="btn-secondary" onclick="document.getElementById('imgInput').click()" type="button">📁 选择图片</button>
-        <input id="imgInput" type="file" accept="image/jpeg,image/png,image/gif,image/webp" style="display:none" onchange="handleImage(event)">
-      </div>
-    </div>
-
-    <div class="field">
-      <label>正文 (Markdown) *</label>
-      <textarea id="fContent" placeholder="在这里写你的文章内容……"></textarea>
-    </div>
-
-    <div class="actions">
-      <button class="btn-secondary" onclick="saveDraft()" id="btnDraft">💾 保存草稿</button>
-      <button class="btn" style="background:#6155F5" onclick="publish()" id="btnPublish">📤 发布文章</button>
-    </div>
-  </div>
-
-  <!-- 草稿列表 -->
-  <div id="tabDrafts" style="display:none"></div>
-
-  <!-- 已发布列表 -->
-  <div id="tabPublished" style="display:none"></div>
+  </main>
 </div>
 
-<script>
-/* ==================== 状态 ==================== */
-const state = {
-  tab: "new",
-  currentFile: null,        // 正在编辑的文件名
-  selectedTags: [],
-  allTags: [],
-  drafts: [],
-  posts: [],
-};
+<!-- 图片选择器弹窗 -->
+<div class="image-picker-modal" id="imagePickerModal">
+  <div class="image-picker-content">
+    <div class="image-picker-header">
+      <h2>🖼 插入图片</h2>
+      <button class="image-picker-close" id="imagePickerClose">✕</button>
+    </div>
+    <div class="image-picker-tabs">
+      <button class="ip-tab active" id="ipTabUpload">📤 上传新图片</button>
+      <button class="ip-tab" id="ipTabBrowse">📂 从资源库选择</button>
+    </div>
 
-/* ==================== 工具 ==================== */
-function todayStr() { return new Date().toISOString().slice(0, 10); }
+    <!-- 上传面板 -->
+    <div class="ip-panel" id="ipUploadPanel">
+      <div class="ip-drop-zone" id="ipDropZone">
+        <div class="ip-drop-icon">📎</div>
+        <div class="ip-drop-text">点击选择或拖拽图片到此处</div>
+        <div class="ip-drop-hint">支持 JPG / PNG / GIF / BMP / TIFF / AVIF，自动转换为 WebP</div>
+        <button class="ip-select-btn" id="ipSelectBtn">选择图片</button>
+      </div>
+      <div class="ip-upload-progress" id="ipUploadProgress" style="display:none"></div>
+    </div>
 
-function $(id) { return document.getElementById(id); }
+    <!-- 资源浏览面板 -->
+    <div class="ip-panel" id="ipBrowsePanel" style="display:none">
+      <div class="ip-browse-toolbar">
+        <input type="text" class="ip-search" id="ipSearch" placeholder="搜索图片名…">
+        <button class="ip-refresh-btn" id="ipRefresh" title="刷新">🔄</button>
+      </div>
+      <div class="ip-gallery" id="ipGallery">
+        <div class="ip-loading">加载中…</div>
+      </div>
+    </div>
+  </div>
+</div>
 
-function showMsg(text, type) {
-  const area = $("msgArea");
-  area.innerHTML = `<div class="msg ${type}"><span>${type === "error" ? "❌" : "✅"} ${text}</span><button onclick="this.parentElement.remove()">关闭</button></div>`;
-  setTimeout(() => { if (area.firstChild) area.firstChild.remove(); }, 5000);
-}
+<!-- 快捷键弹窗 -->
+<div class="shortcuts-modal" id="shortcutsModal">
+  <div class="shortcuts-content">
+    <h2>键盘快捷键</h2>
+    <div class="shortcuts-list">
+      <div class="shortcut-row"><span class="sr-label">保存草稿</span><span class="sr-key">Ctrl + S</span></div>
+      <div class="shortcut-row"><span class="sr-label">发布文章</span><span class="sr-key">Ctrl + Shift + S</span></div>
+      <div class="shortcut-row"><span class="sr-label">加粗</span><span class="sr-key">Ctrl + B</span></div>
+      <div class="shortcut-row"><span class="sr-label">斜体</span><span class="sr-key">Ctrl + I</span></div>
+      <div class="shortcut-row"><span class="sr-label">关闭弹窗</span><span class="sr-key">Esc</span></div>
+    </div>
+    <button class="shortcuts-close" id="shortcutsClose">知道了</button>
+  </div>
+</div>
 
-function clearMsg() { $("msgArea").innerHTML = ""; }
+<!-- 部署面板 -->
+<div class="deploy-modal" id="deployModal">
+  <div class="deploy-content">
+    <div class="deploy-header">
+      <h2 id="deployTitle">⚡ 部署到线上</h2>
+      <button class="deploy-close" id="deployClose">✕</button>
+    </div>
 
-async function apiPost(url, data) {
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
-  if (!res.ok) {
-    const text = await res.text();
-    throw new Error(`服务器错误 ${res.status}: ${text.slice(0, 200)}`);
-  }
-  return res.json();
-}
+    <!-- Cloudflare Token 配置 -->
+    <div class="cf-token-section" id="cfTokenSection">
+      <div class="cf-token-header">
+        <span class="cf-token-label">🔐 Cloudflare API Token</span>
+        <span class="cf-token-status" id="cfTokenStatus">未设置</span>
+      </div>
+      <div class="cf-token-input-row">
+        <input type="password" class="cf-token-input" id="cfTokenInput" placeholder="粘贴你的 Cloudflare API Token...">
+        <button class="cf-token-save" id="cfTokenSave">保存</button>
+      </div>
+      <div class="cf-token-hint">
+        在 <a href="https://dash.cloudflare.com/profile/api-tokens" target="_blank">Cloudflare 面板</a> 创建 Token →
+        选择「Edit Cloudflare Workers and Pages」模板 → 复制粘贴到这里。
+        使用 Token 无需 <code>wrangler login</code>，适合网络较慢的环境。
+      </div>
+    </div>
 
-async function apiGet(url) {
-  const res = await fetch(url);
-  if (!res.ok) {
-    const text = await res.text();
-    throw new Error(`服务器错误 ${res.status}: ${text.slice(0, 200)}`);
-  }
-  return res.json();
-}
+    <div class="deploy-status-bar" id="deployStatusBar">
+      <span class="ds-icon" id="dsIcon">⏳</span>
+      <span class="ds-text" id="dsText">准备中...</span>
+    </div>
+    <div class="deploy-log" id="deployLog"></div>
+    <div class="deploy-footer">
+      <button class="deploy-action" id="deployConfirm">确认部署</button>
+      <button class="deploy-cancel" id="deployCancel">关闭</button>
+    </div>
+  </div>
+</div>
 
-/* ==================== 初始化 ==================== */
-$("fDate").value = todayStr();
-
-loadAllTags();
-loadDrafts();
-loadPosts();
-
-/* ==================== 标签 ==================== */
-async function loadAllTags() {
-  try {
-    const data = await apiGet("/api/list");
-    if (data.success) {
-      state.allTags = [...new Set(data.posts.flatMap(p => p.tags || []))].sort();
-      renderTags();
-    }
-  } catch (e) { console.error(e); }
-}
-
-function renderTags() {
-  const wrap = $("tagWrap");
-  wrap.innerHTML = "";
-  state.allTags.forEach(tag => {
-    const btn = document.createElement("button");
-    btn.className = "tag-chip" + (state.selectedTags.includes(tag) ? " selected" : "");
-    btn.textContent = tag;
-    btn.type = "button";
-    btn.onclick = () => toggleTag(tag);
-    wrap.appendChild(btn);
-  });
-  // 新标签输入
-  const input = document.createElement("input");
-  input.className = "tag-input";
-  input.placeholder = "+新标签";
-  input.onkeydown = e => { if (e.key === "Enter") { e.preventDefault(); addNewTag(input.value); input.value = ""; } };
-  input.onblur = () => { if (input.value.trim()) { addNewTag(input.value.trim()); input.value = ""; } };
-  wrap.appendChild(input);
-}
-
-function toggleTag(tag) {
-  const idx = state.selectedTags.indexOf(tag);
-  if (idx >= 0) state.selectedTags.splice(idx, 1);
-  else state.selectedTags.push(tag);
-  renderTags();
-}
-
-function addNewTag(tag) {
-  if (!tag || state.selectedTags.includes(tag)) return;
-  state.selectedTags.push(tag);
-  if (!state.allTags.includes(tag)) {
-    state.allTags.push(tag);
-    state.allTags.sort();
-  }
-  renderTags();
-}
-
-/* ==================== 标签切换 ==================== */
-function switchTab(tab) {
-  state.tab = tab;
-  document.querySelectorAll(".tab").forEach(b => b.classList.toggle("active", b.dataset.tab === tab));
-  $("tabNew").style.display = tab === "new" ? "" : "none";
-  $("tabDrafts").style.display = tab === "drafts" ? "" : "none";
-  $("tabPublished").style.display = tab === "published" ? "" : "none";
-  if (tab === "drafts") renderDrafts();
-  if (tab === "published") renderPublished();
-}
-
-/* ==================== 列表 ==================== */
-async function loadDrafts() {
-  try {
-    const data = await apiGet("/api/drafts");
-    if (data.success) {
-      state.drafts = data.drafts;
-      $("draftCount").textContent = state.drafts.length;
-    }
-  } catch (e) { console.error(e); }
-}
-
-async function loadPosts() {
-  try {
-    const data = await apiGet("/api/list");
-    if (data.success) {
-      state.posts = data.posts;
-      $("postCount").textContent = state.posts.length;
-    }
-  } catch (e) { console.error(e); }
-}
-
-function renderDrafts() {
-  const el = $("tabDrafts");
-  if (state.drafts.length === 0) {
-    el.innerHTML = '<p class="empty-tip">暂无草稿</p>';
-    return;
-  }
-  el.innerHTML = '<h3 style="margin-bottom:1rem;font-size:1.1rem">📂 草稿箱</h3>';
-  state.drafts.forEach(d => {
-    const div = document.createElement("div");
-    div.className = "list-item";
-    div.innerHTML = `<div class="info"><div class="title">${escHtml(d.title)}</div><div class="meta">${d.pubDate || "无日期"} · 修改于 ${new Date(d.modified).toLocaleString("zh-CN")}</div></div>`;
-    const delBtn = document.createElement("button");
-    delBtn.className = "btn-danger";
-    delBtn.textContent = "删除";
-    delBtn.onclick = e => { e.stopPropagation(); deleteDraft(d.filename); };
-    div.appendChild(delBtn);
-    div.onclick = () => loadForEditing(d.filename, true);
-    el.appendChild(div);
-  });
-}
-
-function renderPublished() {
-  const el = $("tabPublished");
-  if (state.posts.length === 0) {
-    el.innerHTML = '<p class="empty-tip">暂无文章</p>';
-    return;
-  }
-  el.innerHTML = '<h3 style="margin-bottom:1rem;font-size:1.1rem">📖 已发布文章</h3>';
-  state.posts.forEach(p => {
-    const div = document.createElement("div");
-    div.className = "list-item";
-    div.innerHTML = `<div class="info"><div class="title">${escHtml(p.title)}</div><div class="meta">${p.pubDate || "无日期"} · ${p.filename}</div></div>`;
-    div.onclick = () => loadForEditing(p.filename, false);
-    el.appendChild(div);
-  });
-}
-
-function escHtml(s) {
-  const d = document.createElement("div");
-  d.textContent = s;
-  return d.innerHTML;
-}
-
-/* ==================== 加载编辑 ==================== */
-async function loadForEditing(file, isDraft) {
-  try {
-    const base = isDraft ? "/api/draft" : "/api/get";
-    const data = await apiGet(`${base}?file=${encodeURIComponent(file)}`);
-    if (!data.success) { showMsg(data.error || "加载失败", "error"); return; }
-
-    $("fTitle").value = data.frontmatter?.title || data.title || "";
-    $("fDesc").value = data.frontmatter?.description || data.description || "";
-    $("fAuthor").value = data.frontmatter?.author || data.author || "HaxiLin";
-    $("fDate").value = data.frontmatter?.pubDate || data.pubDate || todayStr();
-    $("fContent").value = data.content || "";
-
-    state.selectedTags = data.frontmatter?.tags || data.tags || [];
-    state.currentFile = file;
-    renderTags();
-
-    // 编辑提示
-    $("editNotice").innerHTML = `<div class="edit-notice">✏️ 正在编辑: ${file} <button onclick="resetForm()">[新建文章]</button></div>`;
-
-    switchTab("new");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  } catch (e) {
-    showMsg("加载失败: " + e.message, "error");
-  }
-}
-
-/* ==================== 重置表单 ==================== */
-function resetForm() {
-  $("fTitle").value = "";
-  $("fDesc").value = "";
-  $("fAuthor").value = "HaxiLin";
-  $("fDate").value = todayStr();
-  $("fContent").value = "";
-  state.selectedTags = [];
-  state.currentFile = null;
-  $("editNotice").innerHTML = "";
-  renderTags();
-  clearMsg();
-}
-
-/* ==================== 图片上传 ==================== */
-async function handleImage(e) {
-  const file = e.target.files?.[0];
-  if (!file) return;
-
-  const formData = new FormData();
-  formData.append("image", file);
-
-  try {
-    const res = await fetch("/api/upload-image", { method: "POST", body: formData });
-    const data = await res.json();
-    if (data.success) {
-      $("fContent").value += `\n![${data.filename}](${data.url})\n`;
-    } else {
-      showMsg(data.error || "上传失败", "error");
-    }
-  } catch (err) {
-    showMsg("上传失败: " + err.message, "error");
-  }
-
-  e.target.value = "";
-}
-
-/* ==================== 保存草稿 ==================== */
-async function saveDraft() {
-  const title = $("fTitle").value.trim();
-  const desc = $("fDesc").value.trim();
-  const content = $("fContent").value.trim();
-  if (!title || !desc || !content) { showMsg("标题、简介、正文不能为空", "error"); return; }
-
-  const btn = $("btnDraft");
-  btn.disabled = true;
-  btn.textContent = "保存中...";
-  clearMsg();
-
-  try {
-    const data = await apiPost("/api/draft", {
-      title, description: desc, author: $("fAuthor").value.trim(),
-      pubDate: $("fDate").value, tags: state.selectedTags,
-      content,
-      filename: state.currentFile || null,
-    });
-    if (data.success) {
-      showMsg(`草稿已保存: ${data.filename}`, "success");
-      state.currentFile = data.filename;
-      await loadDrafts();
-    } else {
-      showMsg(data.error || "保存失败", "error");
-    }
-  } catch (e) {
-    showMsg("保存失败: " + e.message, "error");
-  } finally {
-    btn.disabled = false;
-    btn.textContent = "💾 保存草稿";
-  }
-}
-
-/* ==================== 发布文章 ==================== */
-async function publish() {
-  const title = $("fTitle").value.trim();
-  const desc = $("fDesc").value.trim();
-  const content = $("fContent").value.trim();
-  if (!title || !desc || !content) { showMsg("标题、简介、正文不能为空", "error"); return; }
-  if (state.selectedTags.length === 0) { showMsg("至少需要一个标签", "error"); return; }
-
-  const btn = $("btnPublish");
-  btn.disabled = true;
-  btn.textContent = "发布中...";
-  clearMsg();
-
-  try {
-    const data = await apiPost("/api/save", {
-      title, description: desc, author: $("fAuthor").value.trim(),
-      pubDate: $("fDate").value, tags: state.selectedTags,
-      content,
-      filename: state.currentFile || null,
-    });
-    if (data.success) {
-      showMsg(`文章已发布: ${data.filename}`, "success");
-      await loadPosts();
-      await loadAllTags();
-      resetForm();
-    } else {
-      showMsg(data.error || "发布失败", "error");
-    }
-  } catch (e) {
-    showMsg("发布失败: " + e.message, "error");
-  } finally {
-    btn.disabled = false;
-    btn.textContent = "📤 发布文章";
-  }
-}
-
-/* ==================== 删除草稿 ==================== */
-async function deleteDraft(filename) {
-  if (!confirm(`确定删除草稿 "${filename}"？`)) return;
-  try {
-    const res = await fetch(`/api/draft?file=${encodeURIComponent(filename)}`, { method: "DELETE" });
-    const data = await res.json();
-    if (data.success) {
-      showMsg("草稿已删除", "success");
-      await loadDrafts();
-      renderDrafts();
-    } else {
-      showMsg(data.error || "删除失败", "error");
-    }
-  } catch (e) {
-    showMsg("删除失败: " + e.message, "error");
-  }
-}
-</script>
+<script src="app.js?v=6"></script>
 </body>
 </html>

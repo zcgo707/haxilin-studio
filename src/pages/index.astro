@@ -6,6 +6,7 @@ const pageTitle = "HaxiLin Studio";
 
 <BaseLayout pageTitle={pageTitle} showTitle={false}>
     <div class="home">
+        <div class="home-decor" aria-hidden="true"></div>
         <h1 class="home-title">HaxiLin Studio</h1>
         <p class="home-tagline">不折锋芒，不伪自由</p>
     </div>
@@ -19,26 +20,39 @@ const pageTitle = "HaxiLin Studio";
         align-items: center;
         justify-content: center;
         padding: 2rem 1.5rem 3rem;
+        position: relative;
+    }
+
+    .home-decor {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 400px;
+        height: 400px;
+        transform: translate(-50%, -50%);
+        background: radial-gradient(circle, var(--color-blockquote-bg) 0%, transparent 70%);
+        pointer-events: none;
+        z-index: 0;
     }
 
     .home-title {
         font-family: "typhooncondital-12", "HongLeiXingShuJianTi-2", serif;
-        font-size: 4rem;
+        font-size: clamp(2.5rem, 8vw, 4rem);
         font-weight: normal;
         letter-spacing: 0.04em;
         margin-bottom: 0.5rem;
         line-height: 1.1;
+        position: relative;
+        z-index: 1;
     }
 
     .home-tagline {
         font-family: "HongLeiXingShuJianTi-2", serif;
-        font-size: 1.5rem;
+        font-size: clamp(1.1rem, 4vw, 1.5rem);
         letter-spacing: 0.15em;
-        opacity: 0.9;
-        color: #0d0950;
-    }
-
-    html.dark .home-tagline {
-        color: #e1e1e6;
+        opacity: 0.85;
+        color: var(--color-text);
+        position: relative;
+        z-index: 1;
     }
 </style>

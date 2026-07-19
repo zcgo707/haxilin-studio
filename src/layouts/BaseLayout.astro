@@ -3,21 +3,32 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import "../styles/global.css";
 const { pageTitle, showTitle = true } = Astro.props;
+const isHome = Astro.url.pathname === "/";
 ---
 
 <html lang="zh-CN">
     <head>
         <meta charset="utf-8" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <meta name="viewport" content="width=device-width" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="generator" content={Astro.generator} />
         <title>{pageTitle}</title>
-        <link rel="preload" href="/fonts/typhooncondital-12.ttf" as="font" type="font/ttf" crossorigin>
-        <link rel="preload" href="/fonts/HongLeiXingShuJianTi-2.otf" as="font" type="font/otf" crossorigin>
+        {isHome && (
+            <>
+                <link rel="preload" href="/fonts/typhooncondital-12.woff2" as="font" type="font/woff2" crossorigin />
+                <link rel="preload" href="/fonts/HongLeiXingShuJianTi-2.woff2" as="font" type="font/woff2" crossorigin />
+            </>
+        )}
+        {/* Umami 自托管统计脚本占位 —— 拿到 Umami 实例地址后替换 src */}
+        <script is:inline defer
+            src="https://umami.zcgo.top/script.js"
+            data-website-id="REPLACE_WITH_UMAMI_WEBSITE_ID">
+        </script>
     </head>
     <body>
+        <a href="#main-content" class="skip-link">跳转到主要内容</a>
         <Header />
-        <main>
+        <main id="main-content">
             {showTitle && <h1>{pageTitle}</h1>}
             <slot />
         </main>

@@ -10,7 +10,7 @@ npm install
 npm start
 ```
 
-然后浏览器打开 **http://localhost:3000**
+然后浏览器打开 **http://localhost:3001**
 
 ## 功能
 
